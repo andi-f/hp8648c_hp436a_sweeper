@@ -1,0 +1,1 @@
+extern void wdg_main(sweeper_data *wdg_data);
