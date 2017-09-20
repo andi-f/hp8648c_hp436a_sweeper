@@ -20,4 +20,5 @@ extern void *stop_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_da
 extern void *step_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data);
 extern void *step_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data);
 extern void *number_avg_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data);
-
+extern void *on_frequency_sweep_rb_activate(GtkWidget *widget, sweeper_data *wdg_data);
+extern void *on_power_sweeper_rb_activate(GtkWidget *widget, sweeper_data *wdg_data);

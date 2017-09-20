@@ -22,20 +22,21 @@
 
 static char ib_answer[16384];
 
-hp436a_record record_hp436a;
-hp8648c_record record_hp8648c;
+hp436a_record hp436a_data;
+hp8648c_record hp8648c_data;
+sample_record sample_data;
 
 int init_gpib_devices(void)	{
-	record_hp436a.ud = set_device(GPIB_INTERFACE,HP436A_GPIB_ADR);
+	hp436a_data.ud = set_device(GPIB_INTERFACE,HP436A_GPIB_ADR);
 
-	if(record_hp436a.ud < 0)
+	if(hp436a_data.ud < 0)
 	{
 		fprintf(stderr,"ibdev hp436a error\n");
 		return -1;
 	}
 
-	record_hp8648c.ud = set_device(GPIB_INTERFACE,HP8648C_GPIB_ADR);
-	if(record_hp8648c.ud < 0)
+	hp8648c_data.ud = set_device(GPIB_INTERFACE,HP8648C_GPIB_ADR);
+	if(hp8648c_data.ud < 0)
 	{
 		fprintf(stderr,"ibdev hp8648c error\n");
 		return -1;
@@ -46,7 +47,7 @@ int init_gpib_devices(void)	{
 
 int set_mode_hp436a(char *mode)	{
 
-		if (ib_write(record_hp436a.ud,mode)>0)
+		if (ib_write(hp436a_data.ud,mode)>0)
 			fprintf(stderr,"Could not set HPP436A\n\r");
 		else
 			return 1;
@@ -58,27 +59,27 @@ int set_mode_hp436a(char *mode)	{
 int set_mode_hp8648c(int mode, int mod, int output)	{
 	switch(mode){
 		case MOD_OFF:
-		if (ib_write(record_hp8648c.ud,"AM:STAT OFF")>0)
+		if (ib_write(hp8648c_data.ud,"AM:STAT OFF")>0)
 			fprintf(stderr,"Could not set AM modulation off\n\r");
-		if (ib_write(record_hp8648c.ud,"FM:STAT OFF")>0)
+		if (ib_write(hp8648c_data.ud,"FM:STAT OFF")>0)
 			fprintf(stderr,"Could not set FM modultion off\n\r");
 		break;
 	}
 	switch(output){
 		case RF_OFF:
-		if (ib_write(record_hp8648c.ud,"OUTP:STAT OFF")>0)
+		if (ib_write(hp8648c_data.ud,"OUTP:STAT OFF")>0)
 			fprintf(stderr,"Could not set RF off\n\r");
 		case RF_ON:
-		if (ib_write(record_hp8648c.ud,"OUTP:STAT ON")>0)
+		if (ib_write(hp8648c_data.ud,"OUTP:STAT ON")>0)
 			fprintf(stderr,"Could not set RF on\n\r");
 		break;
 	}
 	switch(mod){
 		case 100:
-		if (ib_write(record_hp8648c.ud,"AM:INT:FREQ 400HZ")>0)
+		if (ib_write(hp8648c_data.ud,"AM:INT:FREQ 400HZ")>0)
 			fprintf(stderr,"Could not set RF off\n\r");
 		case 400:
-		if (ib_write(record_hp8648c.ud,"AM:INT:FREQ 400HZ")>0)
+		if (ib_write(hp8648c_data.ud,"AM:INT:FREQ 400HZ")>0)
 			fprintf(stderr,"Could not set RF on\n\r");
 		break;
 	}
@@ -90,7 +91,7 @@ int set_mode_hp8648c(int mode, int mod, int output)	{
 int set_frequency_hp8648c(gdouble set_frequency)	{
 	char cmd_buf[20];
 	sprintf(cmd_buf,"FREQ:CW %4.5fMHZ",set_frequency);
-	if(ib_write(record_hp8648c.ud,cmd_buf) !=0 ){
+	if(ib_write(hp8648c_data.ud,cmd_buf) !=0 ){
 		fprintf(stderr,"Change fault fault %s\n\r", cmd_buf);
 		return -1;
 	}
@@ -105,7 +106,7 @@ int set_level_hp8648c(gdouble set_level)	{
 	char cmd_buf[20];
 	//gdouble set_frequency = gtk_spin_button_get_value(GTK_SPIN_BUTTON(data->widget_set_frequency));
 	sprintf(cmd_buf,"POW:AMPL %4.1fDBM",set_level);
-	if (ib_write(record_hp8648c.ud,cmd_buf) != 0)	{
+	if (ib_write(hp8648c_data.ud,cmd_buf) != 0)	{
 		fprintf(stderr,"Change level fault %s\n\r", cmd_buf);
 		return -1;
 	}
@@ -136,7 +137,7 @@ uint16_t swap_uint16( uint16_t val ) {
 }
 
 void status_hp8648c(hp8648c_record *record)	{
-	ib_write(record_hp8648c.ud,"*IDN?");
+	ib_write(hp8648c_data.ud,"*IDN?");
 	usleep(10000);
 /*
 	if (ib_query(ud, 19,"OPCF?", ib_answer) > 0)	{

@@ -61,8 +61,14 @@ void connection_mapper (GtkBuilder *builder, GObject *object,
 	if (g_strcmp0 (handler_name, "step_frequency_value_changed_cb") == 0)
 		g_signal_connect (object, signal_name, G_CALLBACK(step_frequency_value_changed_cb), wdg_data);
 	else
+	if (g_strcmp0 (handler_name, "on_frequency_sweep_rb_activate") == 0)
+		g_signal_connect (object, signal_name, G_CALLBACK(on_frequency_sweep_rb_activate), wdg_data);
+	else
 	if (g_strcmp0 (handler_name, "number_avg_value_changed_cb") == 0)
 		g_signal_connect (object, signal_name, G_CALLBACK(number_avg_value_changed_cb), wdg_data);
+	else
+	if (g_strcmp0 (handler_name, "on_power_sweeper_rb_activate") == 0)
+		g_signal_connect (object, signal_name, G_CALLBACK(on_power_sweeper_rb_activate), wdg_data);	
 	else
 		g_print ("unknown callback\n");
 }

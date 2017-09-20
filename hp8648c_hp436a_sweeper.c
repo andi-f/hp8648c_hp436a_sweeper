@@ -13,13 +13,10 @@
  *
  */
 
-
 #include "widget_structure.h"
 #include "widget.h"
 
 #include <gtk/gtk.h>
-
-
 
 int main(int argc, char *argv[]) {
 	

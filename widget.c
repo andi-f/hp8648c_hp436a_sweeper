@@ -3,8 +3,7 @@
 
 void wdg_main(sweeper_data *wdg_data)	{
 	wdg_data->builder = gtk_builder_new();
-	gtk_builder_add_from_file (wdg_data->builder, "hp8648c_hp436a_sweeper.glade", NULL);
-	wdg_data->aboutdialog = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "aboutdialog"));
+	gtk_builder_add_from_file (wdg_data->builder, "hp8648c_hp436a_sweeper.glade", NULL);	wdg_data->aboutdialog = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "aboutdialog"));
 	wdg_data->aboutdialog_vbox = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "aboutdialog_vbox"));
 	wdg_data->aboutdialog_action_area = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "aboutdialog_action_area"));
 	wdg_data->image1 = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "image1"));
@@ -44,10 +43,10 @@ void wdg_main(sweeper_data *wdg_data)	{
 	wdg_data->label1 = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "label1"));
 	wdg_data->step_level = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "step_level"));
 	wdg_data->step_frequency = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "step_frequency"));
-	wdg_data->power_sweeper_rb = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "power_sweeper_rb"));
 	wdg_data->frequency_sweep_rb = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "frequency_sweep_rb"));
 	wdg_data->number_average_label = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "number_average_label"));
 	wdg_data->number_avg = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "number_avg"));
+	wdg_data->power_sweeper_rb = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "power_sweeper_rb"));
 	wdg_data->statusbar1 = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "statusbar1"));
 	gtk_builder_connect_signals_full (wdg_data->builder, connection_mapper, (gpointer*) wdg_data);
 	g_object_unref(wdg_data->builder);

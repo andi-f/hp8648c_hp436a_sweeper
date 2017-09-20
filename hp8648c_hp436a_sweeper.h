@@ -14,6 +14,8 @@ typedef struct {
 	uint device;			//GPIB address 0-31
 	int ud;
 	char eot;
+	uint8_t  run_f;					//0 power 1 frequency
+	uint8_t run;
 	uint record_counter;	//
 	gdouble f;				// frequency
 	gdouble f_start;
@@ -34,6 +36,7 @@ typedef struct	{
 	gdouble rmsd;
 	gdouble delta_value;
 	gdouble sample;
+	gdouble avg_count;
 }sample_record;
 
 #define GPIB_INTERFACE 0
