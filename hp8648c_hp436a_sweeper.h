@@ -37,7 +37,8 @@ typedef struct	{
 	gdouble delta_value;
 	gdouble sample;
 	gdouble avg_count;
-}sample_record;
+}
+sample_record;
 
 #define GPIB_INTERFACE 0
 #define HP8648C_GPIB_ADR 7

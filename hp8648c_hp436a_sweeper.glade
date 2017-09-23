@@ -104,12 +104,12 @@ Needs  Linux GPIB for the controll</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkBox" id="filechooserdialog-vbox1">
+      <object class="GtkBox" id="filechooserdialog_box">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox" id="filechooserdialog-action_area1">
+          <object class="GtkButtonBox" id="filechooserdialog_action_area">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
@@ -143,7 +143,7 @@ Needs  Linux GPIB for the controll</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area3">
+          <object class="GtkButtonBox" id="hp436a_dialog_action_area">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
@@ -160,7 +160,7 @@ Needs  Linux GPIB for the controll</property>
           </packing>
         </child>
         <child>
-          <object class="GtkBox" id="hp8648c_gbip_vbox1">
+          <object class="GtkBox" id="hp436a_gbip_vbox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
@@ -204,13 +204,14 @@ Needs  Linux GPIB for the controll</property>
     <property name="modal">True</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
+    <signal name="destroy" handler="on_hp8648c_gbip_dialog_destroy" swapped="no"/>
     <child internal-child="vbox">
       <object class="GtkBox" id="hp8648c_box">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area1">
+          <object class="GtkButtonBox" id="hp8648c_dialog-action_area">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>

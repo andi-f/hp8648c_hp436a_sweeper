@@ -2,6 +2,7 @@
 
 #include "widget_structure.h"
 
+extern void *on_hp8648c_gbip_dialog_destroy(GtkWidget *widget, sweeper_data *wdg_data);
 extern void *on_window_main_destroy(GtkWidget *widget, sweeper_data *wdg_data);
 extern void *menu_new_cb(GtkWidget *widget, sweeper_data *wdg_data);
 extern void *menu_open_cb(GtkWidget *widget, sweeper_data *wdg_data);
@@ -19,6 +20,6 @@ extern void *start_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_d
 extern void *stop_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data);
 extern void *step_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data);
 extern void *step_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data);
-extern void *number_avg_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data);
 extern void *on_frequency_sweep_rb_activate(GtkWidget *widget, sweeper_data *wdg_data);
+extern void *number_avg_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data);
 extern void *on_power_sweeper_rb_activate(GtkWidget *widget, sweeper_data *wdg_data);

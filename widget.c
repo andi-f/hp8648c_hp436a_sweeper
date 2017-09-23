@@ -3,9 +3,25 @@
 
 void wdg_main(sweeper_data *wdg_data)	{
 	wdg_data->builder = gtk_builder_new();
-	gtk_builder_add_from_file (wdg_data->builder, "hp8648c_hp436a_sweeper.glade", NULL);	wdg_data->aboutdialog = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "aboutdialog"));
+	gtk_builder_add_from_file (wdg_data->builder, "hp8648c_hp436a_sweeper.glade", NULL);
+	wdg_data->aboutdialog = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "aboutdialog"));
 	wdg_data->aboutdialog_vbox = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "aboutdialog_vbox"));
 	wdg_data->aboutdialog_action_area = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "aboutdialog_action_area"));
+	wdg_data->filechooserdialog1 = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "filechooserdialog1"));
+	wdg_data->filechooserdialog_box = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "filechooserdialog_box"));
+	wdg_data->filechooserdialog_action_area = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "filechooserdialog_action_area"));
+	wdg_data->hp436a_gbip_dialog = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp436a_gbip_dialog"));
+	wdg_data->hp436a_gbip_box = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp436a_gbip_box"));
+	wdg_data->hp436a_dialog_action_area = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp436a_dialog_action_area"));
+	wdg_data->hp436a_gbip_vbox = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp436a_gbip_vbox"));
+	wdg_data->hp436a_gpbi_label = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp436a_gpbi_label"));
+	wdg_data->hp436a_gpib_spinbutton = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp436a_gpib_spinbutton"));
+	wdg_data->hp8648c_gbip_dialog = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp8648c_gbip_dialog"));
+	wdg_data->hp8648c_box = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp8648c_box"));
+	wdg_data->hp8648c_dialog_action_area = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp8648c_dialog-action_area"));
+	wdg_data->hp8648c_gbip_vbox = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp8648c_gbip_vbox"));
+	wdg_data->hp8648c_gpbi_label = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp8648c_gpbi_label"));
+	wdg_data->hp8648c_gpib_spinbutton = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "hp8648c_gpib_spinbutton"));
 	wdg_data->image1 = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "image1"));
 	wdg_data->image2 = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "image2"));
 	wdg_data->window_main = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "window_main"));

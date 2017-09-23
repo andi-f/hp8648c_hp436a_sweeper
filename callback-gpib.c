@@ -1,6 +1,7 @@
+#include "widget_structure.h"
 #include "hp8648c_hp436a_sweeper.h"
 #include "gpib-functions.h"
-
+#include "init.h"
 
 #include <ctype.h>
 #include <fcntl.h>
@@ -26,7 +27,7 @@ hp436a_record hp436a_data;
 hp8648c_record hp8648c_data;
 sample_record sample_data;
 
-int init_gpib_devices(void)	{
+int init_gpib_devices(sweeper_data *wdg_data)	{
 	hp436a_data.ud = set_device(GPIB_INTERFACE,HP436A_GPIB_ADR);
 
 	if(hp436a_data.ud < 0)
@@ -42,6 +43,8 @@ int init_gpib_devices(void)	{
 		return -1;
 	}
 
+	init(wdg_data,&hp8648c_data);
+	
 	return 1;
 }
 

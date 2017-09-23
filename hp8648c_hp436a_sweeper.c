@@ -16,7 +16,9 @@
 #include "widget_structure.h"
 #include "widget.h"
 
+
 #include <gtk/gtk.h>
+extern int init_gpib_devices(sweeper_data *wdg_data);
 
 int main(int argc, char *argv[]) {
 	
@@ -26,8 +28,9 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr,"Some errors occcured \n\r");
 	}
 
-	wdg_main(&wdg_data);	
+	wdg_main(&wdg_data);
 	gtk_widget_show_all(wdg_data.window_main);
+	init_gpib_devices(&wdg_data);
     gtk_main();
 
     return 0;  	

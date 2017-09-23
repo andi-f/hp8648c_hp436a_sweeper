@@ -10,6 +10,9 @@ void connection_mapper (GtkBuilder *builder, GObject *object,
 	GObject *connect_object, GConnectFlags flags, sweeper_data *wdg_data)	{
 	g_print ("Verbinde %s mit %s\n", signal_name, handler_name);
 
+	if (g_strcmp0 (handler_name, "on_hp8648c_gbip_dialog_destroy") == 0)
+		g_signal_connect (object, signal_name, G_CALLBACK(on_hp8648c_gbip_dialog_destroy), wdg_data);
+	else
 	if (g_strcmp0 (handler_name, "on_window_main_destroy") == 0)
 		g_signal_connect (object, signal_name, G_CALLBACK(on_window_main_destroy), wdg_data);
 	else
@@ -68,7 +71,7 @@ void connection_mapper (GtkBuilder *builder, GObject *object,
 		g_signal_connect (object, signal_name, G_CALLBACK(number_avg_value_changed_cb), wdg_data);
 	else
 	if (g_strcmp0 (handler_name, "on_power_sweeper_rb_activate") == 0)
-		g_signal_connect (object, signal_name, G_CALLBACK(on_power_sweeper_rb_activate), wdg_data);	
+		g_signal_connect (object, signal_name, G_CALLBACK(on_power_sweeper_rb_activate), wdg_data);
 	else
 		g_print ("unknown callback\n");
 }

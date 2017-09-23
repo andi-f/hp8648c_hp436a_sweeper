@@ -1,27 +1,13 @@
-/*
- *      This program is free software: you can redistribute it and/or modify
- *      it under the terms of the GNU General Public License as published by
- *      the Free Software Foundation, either version 3 of the License, or
- *      (at your option) any later version.
- *
- *      This program is distributed in the hope that it will be useful,
- *      but WITHOUT ANY WARRANTY; without even the implied warranty of
- *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *      GNU General Public License for more details.
- *      You should have received a copy of the GNU General Public License
- *      along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
-
 #include "hp8648c_hp436a_sweeper.h"
+#include "widget_structure.h"
 #include "callback-gpib.h"
 #include "gpib-functions.h"
 #include "widget.h"
 #include <math.h>
 #include <unistd.h>
-}
+
 	
-void run()	{
+int run_sweep_p()	{
 	char reply[GPIB_LENGTH];
 	char dummy[GPIB_LENGTH];
 	double value[SAMPLE];
@@ -39,10 +25,10 @@ void run()	{
 	
 	init_gpib_devices();
 
-	record_hp8648c.f = 144.2;
-	record_hp8648c.rl_start = -55;
-	record_hp8648c.rl_stop = -20.1;
-	record_hp8648c.rl_step = 0.1;
+	hp8648c_data.f = 144.2;
+	hp8648c_data.rl_start = -55;
+	hp8648c_data.rl_stop = -20.1;
+	hp8648c_data.rl_step = 0.1;
 /*
 	set_mode_hp8648c(MOD_OFF, 0, RF_OFF);
 	set_level_hp8648c(-100);
@@ -53,10 +39,10 @@ void run()	{
 	set_mode_hp436a("9D-R");
 	sleep(10);
 	
-	set_level_hp8648c(record_hp8648c.rl_start);
+	set_level_hp8648c(hp8648c_data.rl_start);
 	sleep(3);
 	set_mode_hp8648c(MOD_OFF, 0, RF_ON);
-	set_frequency_hp8648c(record_hp8648c.f);
+	set_frequency_hp8648c(hp8648c_data.f);
 	usleep(100000);
 	
 	time( &timeStamp );
@@ -74,13 +60,13 @@ void run()	{
 		fprintf(output_fd,"Level;Ua_avg;Diff;Qrmsd; Delta_value\n\r");
 		fprintf(stderr,"Level;Ua_avg;Diff;Qrmsd; Delta_value\n\r");
 
-		for (gdouble level = record_hp8648c.rl_start;level < record_hp8648c.rl_stop; level = level + record_hp8648c.rl_step)	{
+		for (gdouble level = hp8648c_data.rl_start;level < hp8648c_data.rl_stop; level = level + hp8648c_data.rl_step)	{
 			set_level_hp8648c(level);
 			usleep(100000);
 			avg_value = 0;
 			for (int n = 0;n < SAMPLE;n++)	{
 				do {
-					ib_read(record_hp436a.ud, 14, reply);
+					ib_read(hp436a_data.ud, 14, reply);
 					sscanf(reply,"%3s%le",dummy,&value[n]);
 
 					if (reply[0] == 'P')	//valid measurement
@@ -97,7 +83,7 @@ void run()	{
 					}
 					else
 					if (reply[0] == 'S'){	//underflow
-						level = level + record_hp8648c.rl_step;
+						level = level + hp8648c_data.rl_step;
 						set_level_hp8648c(level);
 						avg_value = 0;
 						n = 0;
@@ -121,5 +107,6 @@ void run()	{
 		}
 	}
 	fclose(output_fd);
+	return 0;
 }
 
