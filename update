@@ -1,0 +1,10 @@
+#/bin/sh
+glade_to_c hp8648c_hp436a_sweeper.glade sweeper
+mv prototyp_callback_widget.c callback_widget.c
+mv prototyp_callback_widget.h callback_widget.h
+mv prototyp_signal_connect.c signal_connect.c
+mv prototyp_signal_connect.h signal_connect.h
+mv prototyp_widget.c widget.c
+mv prototyp_widget.h widget.h
+mv prototyp_widget_structure.h widget_structure.h
+

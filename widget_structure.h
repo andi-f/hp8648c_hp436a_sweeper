@@ -72,4 +72,10 @@ GtkWidget *number_average_label;
 GtkWidget *number_avg;
 GtkWidget *power_sweeper_rb;
 GtkWidget *statusbar1;
+
+gchar *statusbar_buffer;
+gint context_id;
+gint statusbar_timer;
+gint sweep_timer;
+
 } sweeper_data;

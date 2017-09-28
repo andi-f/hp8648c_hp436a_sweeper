@@ -13,6 +13,7 @@
 
 void on_window_main_destroy(GtkWidget *widget, sweeper_data *wdg_data)	{
 	g_fprintf(stderr,"Leaving program\n\r");
+	g_free(wdg_data->statusbar_buffer);
     gtk_main_quit();
 }
 
@@ -57,12 +58,16 @@ void start_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)
 }
 
 void start_button_clicked_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
-	hp8648c_data.run = 1;
-	if (hp8648c_data.f == 1)
-		run_sweep_f();
-	else
-	if (hp8648c_data.f == 0)
-		run_sweep_p();
+	
+	if(hp8648c_data.run != 1){
+		hp8648c_data.run = 1;
+		wdg_data->sweep_timer = g_timeout_add (100, timer_sweep, wdg_data);	
+		
+	}
+	else	{
+		hp8648c_data.run = 0;		
+		g_source_remove (wdg_data->sweep_timer);
+	}
 		
 	#ifdef DEBUG_LEVEL_2	
 		fprintf(stderr,"start_button_clicked_cb active\n");
@@ -129,6 +134,15 @@ void on_power_sweeper_rb_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
 void on_hp8648c_gbip_dialog_destroy(GtkWidget *widget, sweeper_data *wdg_data)	{
 	fprintf(stderr,"on_hp8648c_gbip_dialog_destroy active\n");
 }
+
+gboolean timer_statusbar (gpointer data)
+{
+	sweeper_data *wdg_data = (sweeper_data *) data;
+	gtk_statusbar_push (GTK_STATUSBAR(wdg_data->statusbar1), wdg_data->context_id, wdg_data->statusbar_buffer);
+
+    return 1;
+}
+
 
 
 /*

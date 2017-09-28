@@ -67,7 +67,7 @@ Needs  Linux GPIB for the controll</property>
   <object class="GtkAdjustment" id="adj_start_level">
     <property name="lower">-70</property>
     <property name="upper">13</property>
-    <property name="value">-30</property>
+    <property name="value">-60</property>
     <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">1</property>
   </object>
@@ -93,7 +93,7 @@ Needs  Linux GPIB for the controll</property>
   <object class="GtkAdjustment" id="adj_stop_level">
     <property name="lower">-70</property>
     <property name="upper">13</property>
-    <property name="value">13</property>
+    <property name="value">-20</property>
     <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">1</property>
   </object>

@@ -35,8 +35,10 @@ typedef struct	{
 	gdouble diff_level;
 	gdouble rmsd;
 	gdouble delta_value;
-	gdouble sample;
-	gdouble avg_count;
+	guint sample;
+	guint avg_count;
+	gdouble value[100];
+	gdouble diff_avg;
 }
 sample_record;
 

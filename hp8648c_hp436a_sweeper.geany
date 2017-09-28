@@ -28,17 +28,11 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=9
-FILE_NAME_0=640;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fhp8648c_hp436a_sweeper.h;0;4
-FILE_NAME_1=407;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fcallback-gpib.h;0;4
-FILE_NAME_2=490;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fcallback-gpib.c;0;4
-FILE_NAME_3=1483;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fcallback_widget.h;0;4
-FILE_NAME_4=1433;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fcallback_widget.c;0;4
-FILE_NAME_5=360;Make;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2FMakefile;0;4
-FILE_NAME_6=61;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fprototyp_widget_structure.h;0;4
-FILE_NAME_7=1539;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fwidget_structure.h;0;4
-FILE_NAME_8=4829;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fprototyp_widget.c;0;4
-FILE_NAME_9=0;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fwidget.c;0;4
+current_page=3
+FILE_NAME_0=3389;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Frun_sweep.c;0;4
+FILE_NAME_1=0;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fwidget.c;0;4
+FILE_NAME_2=1895;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fcallback_widget.c;0;4
+FILE_NAME_3=0;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Finit.c;0;4
 
 [VTE]
 last_dir=/home/fs/projects/glade/hp8648c_hp436a_sweeper

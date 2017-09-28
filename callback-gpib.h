@@ -5,7 +5,7 @@ extern int set_level_hp8648c(gdouble level);
 
 
 extern double strip_answer(char *answer, char *para);
-extern int init_gpib_devices(void);
+extern int init_gpib_devices(sweeper_data *wdg_data);
 
 extern uint16_t swap_uint16( uint16_t val );
 

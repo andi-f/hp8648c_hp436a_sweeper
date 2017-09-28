@@ -33,6 +33,7 @@ int init_gpib_devices(sweeper_data *wdg_data)	{
 	if(hp436a_data.ud < 0)
 	{
 		fprintf(stderr,"ibdev hp436a error\n");
+		wdg_data->statusbar_buffer = g_strdup_printf("ibdev hp436a error");
 		return -1;
 	}
 
@@ -40,11 +41,12 @@ int init_gpib_devices(sweeper_data *wdg_data)	{
 	if(hp8648c_data.ud < 0)
 	{
 		fprintf(stderr,"ibdev hp8648c error\n");
+		wdg_data->statusbar_buffer = g_strdup_printf("ibdev hp8648c error");		
 		return -1;
 	}
 
 	init(wdg_data,&hp8648c_data);
-	
+	wdg_data->statusbar_buffer = g_strdup_printf("hp8648c/hp436a ready");		
 	return 1;
 }
 

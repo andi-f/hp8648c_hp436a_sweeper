@@ -66,4 +66,7 @@ void wdg_main(sweeper_data *wdg_data)	{
 	wdg_data->statusbar1 = GTK_WIDGET(gtk_builder_get_object(wdg_data->builder, "statusbar1"));
 	gtk_builder_connect_signals_full (wdg_data->builder, connection_mapper, (gpointer*) wdg_data);
 	g_object_unref(wdg_data->builder);
-;}
+	
+	wdg_data->context_id = gtk_statusbar_get_context_id(GTK_STATUSBAR(wdg_data->statusbar1), "Statusbar");
+	wdg_data->statusbar_timer = g_timeout_add (1000, timer_statusbar, wdg_data);
+}
