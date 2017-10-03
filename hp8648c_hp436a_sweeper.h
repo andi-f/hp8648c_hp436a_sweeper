@@ -2,16 +2,16 @@
 #include <gtk/gtk.h>
 
 typedef struct {
-	uint controller;		//GPIB controller 0-
-	uint device;			//GPIB address 0-31
+	int controller;		//GPIB controller 0-
+	int device;			//GPIB address 0-31
 	char eot;
 	int ud;
 }
 hp436a_record;
 
 typedef struct {
-	uint controller;		//GPIB controller 0-
-	uint device;			//GPIB address 0-31
+	int controller;		//GPIB controller 0-
+	int device;			//GPIB address 0-31
 	int ud;
 	char eot;
 	uint8_t  run_f;					//0 power 1 frequency
@@ -35,7 +35,8 @@ typedef struct	{
 	gdouble diff_level;
 	gdouble rmsd;
 	gdouble delta_value;
-	guint sample;
+	guint sample;			//Counter
+	guint unterflow_counter;//Counter is measurement unterflow
 	guint avg_count;
 	gdouble value[100];
 	gdouble diff_avg;
@@ -51,3 +52,4 @@ sample_record;
 
 enum{MOD_OFF, FM_INT, AM_INT, AM_EXT, Fm_EXT};
 enum{RF_OFF,RF_ON};
+

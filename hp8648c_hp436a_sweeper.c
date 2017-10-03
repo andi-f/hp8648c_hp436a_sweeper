@@ -14,23 +14,28 @@
  */
 
 #include "widget_structure.h"
+#include "hp8648c_hp436a_sweeper.h"
 #include "widget.h"
-
+#include "init.h"
 
 #include <gtk/gtk.h>
-extern int init_gpib_devices(sweeper_data *wdg_data);
-
+	
+hp436a_record hp436a;
+hp8648c_record hp8648c;
+sample_record sample_data;
+	
 int main(int argc, char *argv[]) {
 	
 	sweeper_data wdg_data;
+	
     if (gtk_init_check(&argc, &argv) != TRUE)
     {
 		fprintf(stderr,"Some errors occcured \n\r");
 	}
-
+	init_gpib_devices(&wdg_data,&hp8648c,&hp436a);	
 	wdg_main(&wdg_data);
 	gtk_widget_show_all(wdg_data.window_main);
-	init_gpib_devices(&wdg_data);
+	init(&wdg_data,&hp8648c,&hp436a,&sample_data);
     gtk_main();
 
     return 0;  	

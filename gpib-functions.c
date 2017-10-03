@@ -28,7 +28,7 @@ program needs to be really, but useful for testing library functions.
 #include <getopt.h>
 #include "gpib/ib.h"
 
-#define NODEBUG
+#define NO_DEBUG
 
 /* returns a device descriptor after prompting user for primary address */
 int set_device(int minor, int pad)	{
@@ -36,7 +36,7 @@ int set_device(int minor, int pad)	{
 	const int sad = 0;
 	const int send_eoi = 1;
 	const int eos_mode = 0;
-	const int timeout = T3s;
+	const int timeout = T10s;
 
 	if(pad < 0 || pad > 30){
 		fprintf(stderr,"primary address must be between 0 and 30\n");
@@ -48,11 +48,16 @@ int set_device(int minor, int pad)	{
 #endif
 
 	ud = ibdev(minor, pad, sad, timeout, send_eoi, eos_mode);
+	
 	if(ud < 0)
 	{
 		fprintf(stderr,"ibdev error %i %i\n",minor,pad);
 		exit(-1);
-	}
+	} 
+
+#ifdef DEBUG
+	fprintf(stderr, "Open pad = %i on /dev/gpib%i %i\n", pad, minor,ud);
+#endif
 
 	return ud;
 }
@@ -97,10 +102,13 @@ int ib_read(int ud, int max_num_bytes, char *buffer)	{
 }
 
 int ib_write(int ud, char *command)	{
+#ifdef DEBUG	
+	fprintf(stderr,"%d %s\n\r",ud,command);
+#endif
 
 	if( ibwrt(ud, command, strlen(command)) & ERR )
 	{
-		fprintf(stderr,"Can not send command %s\n\r",command);
+		fprintf(stderr,"Can not send command %s %u\n\r",command, ERR);
 		return -1;
 	}
 #ifdef DEBUG

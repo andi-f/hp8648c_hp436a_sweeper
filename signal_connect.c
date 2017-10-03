@@ -8,7 +8,7 @@
 void connection_mapper (GtkBuilder *builder, GObject *object,
 	const gchar *signal_name, const gchar *handler_name,
 	GObject *connect_object, GConnectFlags flags, sweeper_data *wdg_data)	{
-	g_print ("Verbinde %s mit %s\n", signal_name, handler_name);
+	g_print ("Connect %s with %s\n", signal_name, handler_name);
 
 	if (g_strcmp0 (handler_name, "on_hp8648c_gbip_dialog_destroy") == 0)
 		g_signal_connect (object, signal_name, G_CALLBACK(on_hp8648c_gbip_dialog_destroy), wdg_data);

@@ -1,4 +1,5 @@
 #include "hp8648c_hp436a_sweeper.h"
+#include "hp8648c_hp436a.h"
 #include "widget_structure.h"
 #include "callback-gpib.h"
 #include "run_sweep.h"
@@ -51,7 +52,7 @@ void about(GtkWidget *widget, sweeper_data *wdg_data)	{
 }
 
 void start_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
-	hp8648c_data.f_start = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->start_frequency));
+	hp8648c.f_start = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->start_frequency));
 	#ifdef DEBUG_LEVEL_2	
 		fprintf(stderr,"start_frequency_value_changed_cb active\n");
 	#endif
@@ -59,13 +60,17 @@ void start_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)
 
 void start_button_clicked_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
 	
-	if(hp8648c_data.run != 1){
-		hp8648c_data.run = 1;
-		wdg_data->sweep_timer = g_timeout_add (100, timer_sweep, wdg_data);	
+	if(hp8648c.run != 1){
+		hp8648c.run = 1;
+		sample_data.sample = 0;
+		sample_data.avg_value = 0;
+		sample_data.diff_avg = 0;
+		sample_data.rmsd = 0;
+		wdg_data->sweep_timer = g_timeout_add (1000, timer_sweep, wdg_data);	
 		
 	}
 	else	{
-		hp8648c_data.run = 0;		
+		hp8648c.run = 0;		
 		g_source_remove (wdg_data->sweep_timer);
 	}
 		
@@ -75,35 +80,35 @@ void start_button_clicked_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
 }
 
 void stop_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
-	hp8648c_data.f_stop = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->stop_frequency));
+	hp8648c.f_stop = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->stop_frequency));
 	#ifdef DEBUG_LEVEL_2	
 		fprintf(stderr,"stop_frequency_value_changed_cb active\n");
 	#endif	
 }
 
 void start_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
-	hp8648c_data.rl_start = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->start_level));
+	hp8648c.rl_start = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->start_level));
 	#ifdef DEBUG_LEVEL_2	
 		fprintf(stderr,"start_level_value_changed_cb active\n");
 	#endif
 }
 
 void stop_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
-	hp8648c_data.rl_start = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->step_level));
+	hp8648c.rl_stop = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->step_level));
 	#ifdef DEBUG_LEVEL_2	
 		fprintf(stderr,"stop_level_value_changed_cb active\n");
 	#endif		
 }
 
 void step_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
-	hp8648c_data.rl_step = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->step_level));
+	hp8648c.rl_step = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->step_level));
 	#ifdef DEBUG_LEVEL_2	
 		fprintf(stderr,"step_level_value_changed_cb active\n");
 	#endif		
 }
 
 void step_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
-	hp8648c_data.f_step = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->step_frequency));
+	hp8648c.f_step = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->step_frequency));
 	#ifdef DEBUG_LEVEL_2	
 		fprintf(stderr,"step_level_value_changed_cb active\n");
 	#endif		
@@ -117,14 +122,14 @@ void number_avg_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
 }
 
 void on_frequency_sweep_rb_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
-	hp8648c_data.run_f = 1;
+	hp8648c.run_f = 1;
 	#ifdef DEBUG_LEVEL_2
 	fprintf(stderr,"on_frequency_sweep_rb_activate active\n");
 	#endif
 }
 
 void on_power_sweeper_rb_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
-	hp8648c_data.run_f = 0;
+	hp8648c.run_f = 0;
 	#ifdef DEBUG_LEVEL_2	
 	fprintf(stderr,"on_power_sweeper_rb_activate active\n");
 	#endif
