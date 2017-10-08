@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <gtk/gtk.h>
+#include <glib.h>
 
 typedef struct {
 	int controller;		//GPIB controller 0-
@@ -43,6 +44,15 @@ typedef struct	{
 }
 sample_record;
 
+typedef struct	{
+	gdouble frequency;
+	gdouble ref_level;
+	gdouble avg_value;
+	gdouble rmsd;
+}
+m_record;
+
+
 #define GPIB_INTERFACE 0
 #define HP8648C_GPIB_ADR 7
 #define HP436A_GPIB_ADR 10
@@ -52,4 +62,3 @@ sample_record;
 
 enum{MOD_OFF, FM_INT, AM_INT, AM_EXT, Fm_EXT};
 enum{RF_OFF,RF_ON};
-

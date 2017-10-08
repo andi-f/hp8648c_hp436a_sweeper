@@ -105,7 +105,6 @@ int ib_write(int ud, char *command)	{
 #ifdef DEBUG	
 	fprintf(stderr,"%d %s\n\r",ud,command);
 #endif
-
 	if( ibwrt(ud, command, strlen(command)) & ERR )
 	{
 		fprintf(stderr,"Can not send command %s %u\n\r",command, ERR);

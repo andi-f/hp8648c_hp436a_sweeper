@@ -1,3 +1,8 @@
+#include <gtk/gtk.h>
+#include <math.h>
+#include <unistd.h>
+#include <glib.h>
+
 #include "hp8648c_hp436a_sweeper.h"
 #include "hp8648c_hp436a.h"
 #include "widget_structure.h"
@@ -5,19 +10,20 @@
 #include "callback-gpib.h"
 #include "gpib-functions.h"
 #include "widget.h"
-#include <math.h>
-#include <unistd.h>
+
+
 
 #define NO_DEBUG_LEVEL_1
 #define NO_DEBUG_LEVEL_2
-#define NO DEBUG_LEVEL_3
+#define NO_DEBUG_LEVEL_3
 #define NO_DEBUG_LEVEL_4
-#define DEBUG_LEVEL_5
+#define NO_DEBUG_LEVEL_5
 
 FILE 		*output_fd ;
 uint		hp8648c_delay = 1;
 uint		hp436a_delay =  10;
-uint		lock = FALSE;
+static uint		lock = FALSE;
+
 
 
 gboolean timer_sweep (gpointer data)
@@ -27,6 +33,7 @@ gboolean timer_sweep (gpointer data)
 	char        buffer[80];
 	char 		reply[16384]="PJD -47.90000";
 	char 		dummy[16384];	
+	m_record	act_data;
 
 	sweeper_data *wdg_data = (sweeper_data *) data;
 
@@ -78,6 +85,7 @@ gboolean timer_sweep (gpointer data)
 			#ifdef DEBUG_LEVEL_2			
 				fprintf(stderr,"Init csv-File \n\r");
 			#endif
+			
 			time( &timeStamp );
 			timeInfo = localtime( &timeStamp );
 
@@ -96,6 +104,10 @@ gboolean timer_sweep (gpointer data)
 			}
 			wdg_data->statusbar_buffer = g_strdup_printf("Open csv-file:%s",buffer);
 
+			g_array_free(m_data, TRUE);
+			m_data = g_array_new(FALSE, FALSE, sizeof(m_record));
+			r_counter = 0;
+		
 			hp8648c.f = hp8648c.f_start;
 			hp8648c.rl = hp8648c.rl_start;
 			set_mode_hp8648c(hp8648c.ud,MOD_OFF, 0, RF_ON);
@@ -125,10 +137,11 @@ gboolean timer_sweep (gpointer data)
 				sample_data.sample = 0;
 			}
 			else	{
-				#ifdef DEBUG_LEVEL_3
+				#ifdef DEBUG_LEVEL_5
 					fprintf(stderr,"f=%lf rl=%lf N=%u M=%lf A=%lf D=%lf\n\r",hp8648c.f, hp8648c.rl, sample_data.sample, sample_data.value[sample_data.sample], sample_data.avg_value, sample_data.diff_avg);	
 				#endif
-				sample_data.sample++;				
+				sample_data.sample++;		
+						
 			}
 		}
 		else
@@ -161,7 +174,7 @@ gboolean timer_sweep (gpointer data)
 				sample_data.diff_avg = sample_data.diff_avg + fabs((sample_data.avg_value - sample_data.value[n]));
 			
 				#ifdef DEBUG_LEVEL_3
-					fprintf(stderr,"%lf avg=%lf %lf %lf\n\r",hp8648c.f,hp8648c.rl,sample_data.avg_value,sample_data.diff_avg);	
+					fprintf(stderr,"%f=lf lr=%lf avg=%lf d=%lf\n\r",hp8648c.f,hp8648c.rl,sample_data.avg_value,sample_data.diff_avg);	
 				#endif
 				
 			}
@@ -171,6 +184,13 @@ gboolean timer_sweep (gpointer data)
 			#ifdef DEBUG_LEVEL_2
 				fprintf(stderr,"f=%lf l=%lf avg=%lf rmsd=%lf\n\r",hp8648c.f,hp8648c.rl,sample_data.avg_value, sample_data.rmsd);
 			#endif
+
+			act_data.frequency = hp8648c.f;
+			act_data.ref_level = hp8648c.rl;
+			act_data.avg_value = sample_data.avg_value;
+			act_data.rmsd = sample_data.rmsd;
+			g_array_append_vals(m_data, &act_data,1);
+			r_counter ++;
 			
 			if (sample_data.rmsd < 10){
 
@@ -214,4 +234,3 @@ gboolean timer_sweep (gpointer data)
 	lock = FALSE;
     return TRUE;
 }
-	

@@ -23,10 +23,18 @@
 hp436a_record hp436a;
 hp8648c_record hp8648c;
 sample_record sample_data;
+m_record dummy;
+GArray *m_data;
+guint r_counter;
+
+
 	
 int main(int argc, char *argv[]) {
 	
 	sweeper_data wdg_data;
+	
+	m_data = g_array_new(FALSE, FALSE, sizeof(m_record));
+	r_counter = 1;
 	
     if (gtk_init_check(&argc, &argv) != TRUE)
     {
@@ -34,6 +42,7 @@ int main(int argc, char *argv[]) {
 	}
 	init_gpib_devices(&wdg_data,&hp8648c,&hp436a);	
 	wdg_main(&wdg_data);
+
 	gtk_widget_show_all(wdg_data.window_main);
 	init(&wdg_data,&hp8648c,&hp436a,&sample_data);
     gtk_main();
