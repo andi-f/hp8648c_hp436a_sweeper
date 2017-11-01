@@ -18,6 +18,7 @@
 #include "widget.h"
 #include "init.h"
 
+#include <linux/limits.h>
 #include <gtk/gtk.h>
 	
 hp436a_record hp436a;
@@ -27,20 +28,22 @@ m_record dummy;
 GArray *m_data;
 guint r_counter;
 
-
+extern void draw(sweeper_data *wdg_data);
 	
 int main(int argc, char *argv[]) {
 	
 	sweeper_data wdg_data;
 	
 	m_data = g_array_new(FALSE, FALSE, sizeof(m_record));
-	r_counter = 1;
-	
+	r_counter = 0;
+	wdg_data.filename = g_malloc(PATH_MAX);
+	wdg_data.filename_bin = g_malloc(PATH_MAX);
     if (gtk_init_check(&argc, &argv) != TRUE)
     {
 		fprintf(stderr,"Some errors occcured \n\r");
 	}
-	init_gpib_devices(&wdg_data,&hp8648c,&hp436a);	
+	init_gpib_devices(&wdg_data,&hp8648c,&hp436a);
+		
 	wdg_main(&wdg_data);
 
 	gtk_widget_show_all(wdg_data.window_main);

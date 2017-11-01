@@ -7,8 +7,6 @@
 #define MAXF 3200
 #define MINL -136
 #define MAXL 13
-
-#define NO_DEBUG_LEVEL_1
 		
 int init(sweeper_data *wdg, hp8648c_record *hp8648c, hp436a_record *hp436a, sample_record *sample_data)	{
 
@@ -23,8 +21,11 @@ int init(sweeper_data *wdg, hp8648c_record *hp8648c, hp436a_record *hp436a, samp
 //	}
 
 		hp8648c->run_f = 1;
-
-		sample_data->avg_count = 10;
+		
+		sample_data->avg_count = 100;		
+	#ifdef DUMMYRUN
+		sample_data->avg_count = 2;
+	#endif	
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->number_avg),sample_data->avg_count);
 		
 	if (hp8648c->f_stop < 3200)	{
@@ -46,6 +47,11 @@ int init(sweeper_data *wdg, hp8648c_record *hp8648c, hp436a_record *hp436a, samp
 		hp8648c->f_step = (hp8648c->f_stop - hp8648c->f_stop) / 100;
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->step_frequency),hp8648c->f_step);		
 	}
+	
+	#ifdef DUMMYRUN
+	hp8648c->f_step = 500;
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->step_frequency),hp8648c->f_step);		
+	#endif
 	
 	if (hp8648c->rl_start != -50)	{
 		hp8648c->rl_start = -20;

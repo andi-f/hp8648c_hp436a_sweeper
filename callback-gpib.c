@@ -21,7 +21,7 @@
 #define NODEBUG_LEVEL_2
 #define NODEBUG_LEVEL_1
 
-static char ib_answer[16384];
+//static char ib_answer[16384];
 
 int set_mode_hp436a(int ud,char *mode)	{
 
@@ -123,5 +123,3 @@ double strip_answer(char *answer, char *para) {
 uint16_t swap_uint16( uint16_t val ) {
     return (val << 8) | (val >> 8 );
 }
-
-

@@ -28,7 +28,6 @@ program needs to be really, but useful for testing library functions.
 #include <getopt.h>
 #include "gpib/ib.h"
 
-#define NO_DEBUG
 
 /* returns a device descriptor after prompting user for primary address */
 int set_device(int minor, int pad)	{
@@ -43,7 +42,7 @@ int set_device(int minor, int pad)	{
 		return -1;
 	}
 
-#ifdef DEBUG
+#ifdef DEBUG_LEVEL_1
 	fprintf(stderr, "trying to open pad = %i on /dev/gpib%i ...\n", pad, minor);
 #endif
 
@@ -55,7 +54,7 @@ int set_device(int minor, int pad)	{
 		exit(-1);
 	} 
 
-#ifdef DEBUG
+#ifdef DEBUG_LEVEL_1
 	fprintf(stderr, "Open pad = %i on /dev/gpib%i %i\n", pad, minor,ud);
 #endif
 
@@ -67,7 +66,7 @@ int ib_read(int ud, int max_num_bytes, char *buffer)	{
 
 	ibrd(ud, buffer, buffer_size - 1);
 
-#ifdef DEBUG
+#ifdef DEBUG_LEVEL_2
 	int is_string;
 	int i;
 
@@ -102,17 +101,19 @@ int ib_read(int ud, int max_num_bytes, char *buffer)	{
 }
 
 int ib_write(int ud, char *command)	{
-#ifdef DEBUG	
+	
+	return 0;
+	#ifdef DEBUG_LEVEL_1	
 	fprintf(stderr,"%d %s\n\r",ud,command);
-#endif
+	#endif
 	if( ibwrt(ud, command, strlen(command)) & ERR )
 	{
 		fprintf(stderr,"Can not send command %s %u\n\r",command, ERR);
 		return -1;
 	}
-#ifdef DEBUG
+	#ifdef DEBUG_LEVEL_2
 		fprintf(stderr,"Command %s send\n\r",command);
-#endif
+	#endif
 	return 0;
 }
 

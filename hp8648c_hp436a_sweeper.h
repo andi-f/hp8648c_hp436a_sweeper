@@ -17,7 +17,6 @@ typedef struct {
 	char eot;
 	uint8_t  run_f;					//0 power 1 frequency
 	uint8_t run;
-	uint record_counter;	//
 	gdouble f;				// frequency
 	gdouble f_start;
 	gdouble f_stop;
@@ -52,7 +51,6 @@ typedef struct	{
 }
 m_record;
 
-
 #define GPIB_INTERFACE 0
 #define HP8648C_GPIB_ADR 7
 #define HP436A_GPIB_ADR 10
@@ -62,3 +60,10 @@ m_record;
 
 enum{MOD_OFF, FM_INT, AM_INT, AM_EXT, Fm_EXT};
 enum{RF_OFF,RF_ON};
+
+#define NO_DUMMYRUN
+#define NO_DEBUG_LEVEL_1
+#define NO_DEBUG_LEVEL_2
+#define NO_DEBUG_LEVEL_3
+#define NO_DEBUG_LEVEL_4
+#define NO_DEBUG_LEVEL_5
