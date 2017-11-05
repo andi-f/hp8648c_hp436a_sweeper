@@ -34,6 +34,7 @@ typedef struct	{
 	gdouble avg_value;
 	gdouble diff_level;
 	gdouble rmsd;
+	gdouble rmsd_limit;
 	gdouble delta_value;
 	guint sample;			//Counter
 	guint unterflow_counter;//Counter is measurement unterflow
@@ -58,12 +59,12 @@ m_record;
 #define GPIB_LENGTH 16348
 #define SAMPLE 100
 
+#define MINF 0.15
+#define MAXF 3200
+#define MAXSTEP_F 500
+#define MINL -136
+#define MAXL 13
+
+
 enum{MOD_OFF, FM_INT, AM_INT, AM_EXT, Fm_EXT};
 enum{RF_OFF,RF_ON};
-
-#define NO_DUMMYRUN
-#define NO_DEBUG_LEVEL_1
-#define NO_DEBUG_LEVEL_2
-#define NO_DEBUG_LEVEL_3
-#define NO_DEBUG_LEVEL_4
-#define NO_DEBUG_LEVEL_5

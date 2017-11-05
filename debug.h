@@ -1,0 +1,6 @@
+#define DUMMYRUN
+#define DEBUG_LEVEL_1
+#define NO_DEBUG_LEVEL_2
+#define NO_DEBUG_LEVEL_3
+#define NO_DEBUG_LEVEL_4
+#define NO_DEBUG_LEVEL_5

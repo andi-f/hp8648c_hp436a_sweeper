@@ -17,6 +17,7 @@
 #include "hp8648c_hp436a_sweeper.h"
 #include "widget.h"
 #include "init.h"
+#include "debug.h"
 
 #include <linux/limits.h>
 #include <gtk/gtk.h>

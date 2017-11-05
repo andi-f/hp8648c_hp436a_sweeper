@@ -22,6 +22,7 @@
 #include "hp8648c_hp436a.h"
 #include "run_sweep.h"
 #include "widget_structure.h"
+#include "debug.h"
 
 #define NODEBUG_LEVEL_1
 #define MAXPOINTS 10000

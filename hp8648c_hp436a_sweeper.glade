@@ -30,6 +30,13 @@
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkAdjustment" id="adj_rmsd_setting">
+    <property name="lower">0.01</property>
+    <property name="upper">1</property>
+    <property name="value">0.14999999999999999</property>
+    <property name="step_increment">0.01</property>
+    <property name="page_increment">1</property>
+  </object>
   <object class="GtkAdjustment" id="adj_scale_adxxx">
     <property name="lower">20</property>
     <property name="upper">30</property>
@@ -130,7 +137,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="menu_new_cb" swapped="no"/>
+                        <signal name="activate" handler="on_imagemenuitem_new_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -142,7 +149,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <property name="always_show_image">True</property>
-                        <signal name="activate" handler="menu_open_cb" swapped="no"/>
+                        <signal name="activate" handler="on_imagemenuitem_open_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -154,7 +161,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <property name="always_show_image">True</property>
-                        <signal name="activate" handler="menu_save_cb" swapped="no"/>
+                        <signal name="activate" handler="on_imagemenuitem_save_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -166,7 +173,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <property name="always_show_image">True</property>
-                        <signal name="activate" handler="menu_save_as_cb" swapped="no"/>
+                        <signal name="activate" handler="on_imagemenuitem_save_as_activate" swapped="no"/>
                       </object>
                     </child>
                     <child>
@@ -217,7 +224,7 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
                         <property name="always_show_image">True</property>
-                        <signal name="activate" handler="menu_quit_cb" swapped="no"/>
+                        <signal name="activate" handler="on_imagemenuitem_quit_activate" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -243,7 +250,7 @@
                         <property name="can_focus">False</property>
                         <property name="image">gpib_settings</property>
                         <property name="use_stock">False</property>
-                        <signal name="activate" handler="menu_gpib_address" swapped="no"/>
+                        <signal name="activate" handler="on_gpib_address_activate" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -267,7 +274,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="about" swapped="no"/>
+                        <signal name="activate" handler="on_imagemenuitem_about_activate" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -303,7 +310,7 @@
                 <property name="margin_right">5</property>
                 <property name="margin_top">5</property>
                 <property name="margin_bottom">2</property>
-                <signal name="configure-event" handler="cairo_drawing_configure_event_cb" swapped="no"/>
+                <signal name="configure-event" handler="on_cairo_drawing_configure_event" swapped="no"/>
                 <signal name="draw" handler="on_cairo_drawing_draw" swapped="no"/>
               </object>
               <packing>
@@ -316,8 +323,6 @@
               <object class="GtkGrid" id="grid1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="margin_left">5</property>
-                <property name="margin_right">5</property>
                 <property name="margin_top">5</property>
                 <property name="margin_bottom">5</property>
                 <property name="row_spacing">5</property>
@@ -325,238 +330,11 @@
                 <property name="row_homogeneous">True</property>
                 <property name="column_homogeneous">True</property>
                 <child>
-                  <object class="GtkLabel" id="start_frequency_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Start frequency [MHz]</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="start_frequency">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="margin_left">5</property>
-                    <property name="margin_right">5</property>
-                    <property name="margin_top">5</property>
-                    <property name="margin_bottom">5</property>
-                    <property name="adjustment">adj_start_frequency</property>
-                    <property name="climb_rate">0.10000000000000001</property>
-                    <property name="digits">2</property>
-                    <property name="numeric">True</property>
-                    <property name="value">144.19999999999999</property>
-                    <signal name="value-changed" handler="start_frequency_value_changed_cb" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="step__frequency_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Step frequency [MHz]</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">2</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkButton" id="start_button">
-                    <property name="label">gtk-execute</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="use_stock">True</property>
-                    <property name="always_show_image">True</property>
-                    <signal name="clicked" handler="start_button_clicked_cb" swapped="no"/>
-                    <style>
-                      <class name="suggested-action"/>
-                    </style>
-                  </object>
-                  <packing>
-                    <property name="left_attach">3</property>
-                    <property name="top_attach">5</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="stop_frequency_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Stop frequency [MHz]</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="stop_frequency">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="adjustment">adj_stop_frequency</property>
-                    <property name="climb_rate">0.10000000000000001</property>
-                    <property name="digits">2</property>
-                    <property name="numeric">True</property>
-                    <property name="value">144.19999999999999</property>
-                    <signal name="value-changed" handler="stop_frequency_value_changed_cb" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="Start_level_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Start level [dBm]</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="start_level">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="margin_left">5</property>
-                    <property name="margin_right">5</property>
-                    <property name="margin_top">5</property>
-                    <property name="margin_bottom">5</property>
-                    <property name="adjustment">adj_start_level</property>
-                    <property name="climb_rate">0.10000000000000001</property>
-                    <property name="digits">1</property>
-                    <property name="numeric">True</property>
-                    <property name="value">-30</property>
-                    <signal name="value-changed" handler="start_level_value_changed_cb" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="stop_level_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Stop level [dBm]</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="stop_level">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="adjustment">adj_stop_level</property>
-                    <property name="climb_rate">0.10000000000000001</property>
-                    <property name="digits">1</property>
-                    <property name="numeric">True</property>
-                    <property name="value">-20</property>
-                    <signal name="value-changed" handler="stop_level_value_changed_cb" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label1">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Step power [dBm]</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">2</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="step_level">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="adjustment">adj_step_level</property>
-                    <property name="climb_rate">1</property>
-                    <property name="digits">1</property>
-                    <property name="value">1</property>
-                    <signal name="value-changed" handler="step_level_value_changed_cb" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">2</property>
-                    <property name="top_attach">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="step_frequency">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="adjustment">adj_step_frequency</property>
-                    <property name="climb_rate">0.10000000000000001</property>
-                    <property name="digits">2</property>
-                    <property name="numeric">True</property>
-                    <property name="value">1</property>
-                    <signal name="value-changed" handler="step_frequency_value_changed_cb" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">2</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="number_average_label">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Number avg</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">3</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkSpinButton" id="number_avg">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="adjustment">adj_number_avg</property>
-                    <property name="climb_rate">1</property>
-                    <property name="value">100</property>
-                    <signal name="value-changed" handler="number_avg_value_changed_cb" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">3</property>
-                    <property name="top_attach">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="log_scale">
-                    <property name="label" translatable="yes">log-scale</property>
-                    <property name="name">log_scale</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="draw_indicator">True</property>
-                    <signal name="toggled" handler="log_scale_toggled_cb" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="left_attach">3</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="run_f_pwr">
+                  <object class="GtkBox" id="run_f_pwr_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkRadioButton" id="frequency_sweep_rb">
                         <property name="label" translatable="yes">Frequency</property>
@@ -564,13 +342,14 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="xalign">0</property>
-                        <property name="active">True</property>
                         <property name="draw_indicator">True</property>
+                        <property name="group">power_sweeper_rb</property>
+                        <signal name="clicked" handler="on_frequency_sweep_rb_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -582,11 +361,12 @@
                         <property name="xalign">0</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">frequency_sweep_rb</property>
+                        <signal name="clicked" handler="on_power_sweeper_rb_clicked" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
                         <property name="fill">True</property>
-                        <property name="position">3</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
@@ -596,10 +376,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="dut">
+                  <object class="GtkBox" id="dut_box">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkLabel" id="dut_description_label">
                         <property name="visible">True</property>
@@ -623,7 +404,6 @@
                         <property name="text" translatable="yes">ZF</property>
                         <property name="truncate_multiline">True</property>
                         <property name="placeholder_text" translatable="yes">Description TUD</property>
-                        <signal name="changed" handler="dut_desciption_changed_cb" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -634,17 +414,460 @@
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
-                    <property name="top_attach">5</property>
+                    <property name="top_attach">2</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="rmsd_setting_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="rmsd_setting_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Limit for rmsd ok</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="rmsd_settings">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="adjustment">adj_rmsd_setting</property>
+                        <property name="digits">2</property>
+                        <property name="numeric">True</property>
+                        <signal name="value-changed" handler="on_rmsd_settings_value_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">2</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkButton" id="start_button">
+                    <property name="label">gtk-execute</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="use_stock">True</property>
+                    <property name="always_show_image">True</property>
+                    <signal name="clicked" handler="on_start_button_clicked" swapped="no"/>
+                    <style>
+                      <class name="suggested-action"/>
+                    </style>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="top_attach">3</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="GtkBox" id="start_level_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="Start_level_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Start level [dBm]</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="start_level">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="margin_top">5</property>
+                        <property name="margin_bottom">5</property>
+                        <property name="text" translatable="yes">-70.0</property>
+                        <property name="adjustment">adj_start_level</property>
+                        <property name="climb_rate">0.10000000000000001</property>
+                        <property name="digits">1</property>
+                        <property name="numeric">True</property>
+                        <property name="value">-70</property>
+                        <signal name="value-changed" handler="on_start_level_value_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="stop_level_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="stop_level_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Stop level [dBm]</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="stop_level">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="text" translatable="yes">-20.0</property>
+                        <property name="adjustment">adj_stop_level</property>
+                        <property name="climb_rate">0.10000000000000001</property>
+                        <property name="digits">1</property>
+                        <property name="numeric">True</property>
+                        <property name="value">-20</property>
+                        <signal name="value-changed" handler="on_stop_level_value_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="step_power_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="step_power_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Step power [dBm]</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="step_level">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="text" translatable="yes">1.0</property>
+                        <property name="adjustment">adj_step_level</property>
+                        <property name="climb_rate">1</property>
+                        <property name="digits">1</property>
+                        <property name="value">1</property>
+                        <signal name="value-changed" handler="on_step_level_value_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">2</property>
+                    <property name="top_attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="num_avg_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="number_average_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Number avg</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="number_avg">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="text" translatable="yes">100</property>
+                        <property name="adjustment">adj_number_avg</property>
+                        <property name="climb_rate">1</property>
+                        <property name="value">100</property>
+                        <signal name="value-changed" handler="on_number_avg_value_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="top_attach">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="start_frequency_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="start_frequency_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Start frequency [MHz]</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="start_frequency">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="margin_top">5</property>
+                        <property name="margin_bottom">5</property>
+                        <property name="text" translatable="yes">144.20</property>
+                        <property name="adjustment">adj_start_frequency</property>
+                        <property name="climb_rate">0.10000000000000001</property>
+                        <property name="digits">2</property>
+                        <property name="numeric">True</property>
+                        <property name="value">144.19999999999999</property>
+                        <signal name="value-changed" handler="on_start_frequency_value_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="stop_frequency_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="stop_frequency_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Stop frequency [MHz]</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="stop_frequency">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="text" translatable="yes">144.20</property>
+                        <property name="adjustment">adj_stop_frequency</property>
+                        <property name="climb_rate">0.10000000000000001</property>
+                        <property name="digits">2</property>
+                        <property name="numeric">True</property>
+                        <property name="value">144.19999999999999</property>
+                        <signal name="value-changed" handler="on_stop_frequency_value_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="step_frequency_box">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkLabel" id="step__frequency_label">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">Step frequency [MHz]</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSpinButton" id="step_frequency">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="text" translatable="yes">1.00</property>
+                        <property name="adjustment">adj_step_frequency</property>
+                        <property name="climb_rate">0.10000000000000001</property>
+                        <property name="digits">2</property>
+                        <property name="numeric">True</property>
+                        <property name="value">1</property>
+                        <signal name="value-changed" handler="on_step_frequency_value_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">2</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkCheckButton" id="log_scale">
+                    <property name="label" translatable="yes">log-scale</property>
+                    <property name="name">log_scale</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="xalign">0</property>
+                    <property name="draw_indicator">True</property>
+                    <signal name="clicked" handler="on_log_scale_clicked" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkGrid" id="band_grid">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="row_spacing">2</property>
+                    <property name="column_spacing">2</property>
+                    <child>
+                      <object class="GtkRadioButton" id="band_2">
+                        <property name="label" translatable="yes">144MHz</property>
+                        <property name="name">144MHz</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">band_70</property>
+                        <signal name="clicked" handler="on_band_2_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="band_70">
+                        <property name="label" translatable="yes">432MHz</property>
+                        <property name="name">432MHz</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">band_2</property>
+                        <signal name="clicked" handler="on_band_70_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="band_23">
+                        <property name="label" translatable="yes">1296MHz</property>
+                        <property name="name">1296MHz</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">band_2</property>
+                        <signal name="clicked" handler="on_band_23_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkRadioButton" id="band_13">
+                        <property name="label" translatable="yes">2320MHz</property>
+                        <property name="name">2320MHz</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                        <property name="group">band_2</property>
+                        <signal name="clicked" handler="on_band_13_clicked" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="top_attach">2</property>
+                  </packing>
                 </child>
                 <child>
                   <placeholder/>
@@ -805,7 +1028,7 @@ Needs Linux GPIB for the control</property>
                 <property name="adjustment">adj_hp8648c_gpib_spinbutton</property>
                 <property name="climb_rate">1</property>
                 <property name="value">31</property>
-                <signal name="change-value" handler="on_hp8648c_gpib_spinbutton_change_value" swapped="no"/>
+                <signal name="value-changed" handler="on_hp8648c_gpib_spinbutton_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -820,7 +1043,7 @@ Needs Linux GPIB for the control</property>
                 <property name="adjustment">adj_hp436a_gpib_spinbutton</property>
                 <property name="climb_rate">1</property>
                 <property name="value">31</property>
-                <signal name="change-value" handler="on_hp436a_gpib_spinbutton_change_value" swapped="no"/>
+                <signal name="value-changed" handler="on_hp436a_gpib_spinbutton_value_changed" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>

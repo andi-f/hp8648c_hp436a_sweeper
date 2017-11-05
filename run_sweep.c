@@ -11,6 +11,7 @@
 #include "gpib-functions.h"
 #include "widget.h"
 #include "drawing.h"
+#include "debug.h"
 
 static FILE *output_fd = NULL;
 uint		hp8648c_delay = 1;
@@ -27,19 +28,19 @@ gboolean timer_sweep (gpointer data)
 	sweeper_data *wdg_data = (sweeper_data *) data;
 
 	if(lock == TRUE)	{
-		#ifdef DUMMYRUN
+		#ifdef DEBUG_LEVEL_2
 		fprintf(stderr,"Locked\n");		
 		#endif
 		return TRUE;
 	}
 	
 	if(hp8648c.run != 1)	{
-		#ifdef DEBUG_LEVEL_1
+		#ifdef DEBUG_LEVEL_2
 		fprintf(stderr,"not running \n");
 		#endif
 		return TRUE;		
 	}
-	#ifdef DEBUG_LEVEL_1
+	#ifdef DEBUG_LEVEL_2
 	fprintf(stderr,"running \n");
 	#endif			
 	
@@ -181,7 +182,7 @@ gboolean timer_sweep (gpointer data)
 		
 			sample_data.rmsd  = pow((sample_data.diff_avg/(sample_data.sample-1)),0.5);
 
-			if (sample_data.rmsd < 0.15){
+			if (sample_data.rmsd < sample_data.rmsd_limit)	{
 
 				fprintf(output_fd,"%lf %lf %lf %lf\n",hp8648c.f,hp8648c.rl,sample_data.avg_value, sample_data.rmsd);
 				wdg_data->statusbar_buffer = g_strdup_printf("%lf %lf %lf %lf",hp8648c.f,hp8648c.rl,sample_data.avg_value, sample_data.rmsd);

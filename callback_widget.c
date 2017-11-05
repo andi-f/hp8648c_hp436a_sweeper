@@ -5,6 +5,7 @@
 #include "run_sweep.h"
 #include "drawing.h"
 #include "init.h"
+#include "debug.h"
 
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -87,18 +88,18 @@ void on_window_main_destroy(GtkWidget *widget, sweeper_data *wdg_data)	{
 		cairo_surface_destroy (surface);		
 }
 
-void menu_quit_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_imagemenuitem_quit_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
 	on_window_main_destroy(NULL,wdg_data);
 }
 
-void menu_new_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_imagemenuitem_new_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
 	g_array_free(m_data, TRUE);
 	m_data = g_array_new(FALSE, FALSE, sizeof(m_record));
 	r_counter = 0;
 	wdg_data->statusbar_buffer = g_strdup_printf("Erasing data");	
 }
 
-void menu_open_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_imagemenuitem_open_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
 	GtkWidget *dialog;
 	gint res;
 	GtkFileFilter *filter;
@@ -127,11 +128,11 @@ void menu_open_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
 	
 }
 
-void menu_save_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_imagemenuitem_save_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
 	save_file(wdg_data);
 }
 
-void menu_save_as_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_imagemenuitem_save_as_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
 	GtkWidget *dialog;
 	GtkFileFilter *filter;
 	
@@ -158,23 +159,24 @@ void menu_save_as_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
 	gtk_widget_destroy (dialog);
 }
 
-void about(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_imagemenuitem_about_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
     gtk_dialog_run( GTK_DIALOG( wdg_data->aboutdialog) );
     gtk_widget_hide( wdg_data->aboutdialog);
 }
 
-void start_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+
+void on_start_frequency_value_changed(GtkWidget *widget, sweeper_data *wdg_data)	{
 	hp8648c.f_start = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->start_frequency));
 	#ifdef DEBUG_LEVEL_1	
 	fprintf(stderr,"start_frequency_value_changed_cb active\n");
 	#endif
 }
 
-void start_button_clicked_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_start_button_clicked(GtkWidget *widget, sweeper_data *wdg_data)	{
 	
 	if(hp8648c.run != 1){
 		hp8648c.run = 1;
-		#ifdef DEBUG_LEVEL_2
+		#ifdef DEBUG_LEVEL_1
 		fprintf(stderr,"start_button_clicked_cb active: started\n");
 		#endif		
 		
@@ -199,76 +201,77 @@ void start_button_clicked_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
 	}
 	else	{
 		hp8648c.run = 0;		
-		#ifdef DEBUG_LEVEL_2	
+		#ifdef DEBUG_LEVEL_1	
 		fprintf(stderr,"start_button_clicked_cb active: stopped\n");
 		#endif
-	}
-		#ifdef DEBUG_LEVEL_1	
-		fprintf(stderr,"start_button_clicked_cb active\n");
-		#endif		
+	}	
 }
 
-void stop_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_stop_frequency_value_changed(GtkWidget *widget, sweeper_data *wdg_data)	{
 	hp8648c.f_stop = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->stop_frequency));
 	#ifdef DEBUG_LEVEL_1	
-		fprintf(stderr,"stop_frequency_value_changed_cb active\n");
+		fprintf(stderr,"stop_frequency_value_changedb active\n");
 	#endif	
 }
 
-void start_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_start_level_value_changed(GtkWidget *widget, sweeper_data *wdg_data)	{
 	hp8648c.rl_start = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->start_level));
 	#ifdef DEBUG_LEVEL_1	
-		fprintf(stderr,"start_level_value_changed_cb active\n");
+		fprintf(stderr,"start_level_value_changed active\n");
 	#endif
 }
 
-void stop_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_stop_level_value_changed(GtkWidget *widget, sweeper_data *wdg_data)	{
 	hp8648c.rl_stop = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->stop_level));
 	#ifdef DEBUG_LEVEL_1	
-		fprintf(stderr,"stop_level_value_changed_cb active\n");
+		fprintf(stderr,"stop_level_value_changedb active\n");
 	#endif		
 }
 
-void step_level_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_step_level_value_changed(GtkWidget *widget, sweeper_data *wdg_data)	{
 	hp8648c.rl_step = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->step_level));
 	#ifdef DEBUG_LEVEL_1	
-		fprintf(stderr,"step_level_value_changed_cb active\n");
+		fprintf(stderr,"step_level_value_changed active\n");
 	#endif		
 }
 
-void step_frequency_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_step_frequency_value_changed(GtkWidget *widget, sweeper_data *wdg_data)	{
 	hp8648c.f_step = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->step_frequency));
 	#ifdef DEBUG_LEVEL_1	
-		fprintf(stderr,"step_level_value_changed_cb active\n");
+		fprintf(stderr,"step_level_value_changedb active\n");
 	#endif		
 }
 
-void number_avg_value_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_number_avg_value_changed(GtkWidget *widget, sweeper_data *wdg_data)	{
 	sample_data.avg_count = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->number_avg));
 	#ifdef DEBUG_LEVEL_1	
-	fprintf(stderr,"number_avg_value_changed_cb active\n");
+	fprintf(stderr,"number_avg_value_changedb active\n");
 	#endif		
 }
 
-void on_frequency_sweep_rb_toggled(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_rmsd_settings_value_changed(GtkWidget *widget, sweeper_data *wdg_data)  {
+	sample_data.rmsd_limit = gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->rmsd_settings));
+	#ifdef DEBUG_LEVEL_1	
+	fprintf(stderr,"number_avg_value_changedb active\n");
+	#endif		
+
+}
+
+void on_frequency_sweep_rb_clicked(GtkWidget *widget, sweeper_data *wdg_data)	{
 	hp8648c.run_f = 1;
 	#ifdef DEBUG_LEVEL_1
 	fprintf(stderr,"on_frequency_sweep_rb_activate active\n");
 	#endif
 }
 
-void on_power_sweeper_rb_toggled(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_power_sweeper_rb_clicked(GtkWidget *widget, sweeper_data *wdg_data)	{
 	hp8648c.run_f = 0;
 	#ifdef DEBUG_LEVEL_1	
 	fprintf(stderr,"on_power_sweeper_rb_activate active\n");
 	#endif
 }
 
-void log_scale_toggled_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
-	fprintf(stderr,"log_scale_toggled\n");
-}
-
-void cairo_drawing_configure_event_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_cairo_drawing_configure_event(GtkWidget *widget, sweeper_data *wdg_data)	{
 	
 }
 
@@ -299,9 +302,9 @@ gboolean timer_statusbar (gpointer data)	{
 	return TRUE;
 }
 
-void dut_desciption_changed_cb(GtkWidget *widget, sweeper_data *wdg_data)	{
-	wdg_data->dut_desc_buffer = gtk_entry_buffer_get_text (gtk_entry_get_buffer (wdg_data->dut_desciption));
-	fprintf(stderr,"dut_desciption_changed %s\n",wdg_data->dut_desc_buffer);
+void dut_desciption_change(GtkWidget *widget, sweeper_data *wdg_data)	{
+	wdg_data->dut_desc_buffer = gtk_entry_buffer_get_text (gtk_entry_get_buffer (wdg_data->dut_description));
+	fprintf(stderr,"dut_desciption_change %s\n",wdg_data->dut_desc_buffer);
 }
 	
 void on_imagemenuitem_export_pdf_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
@@ -319,19 +322,19 @@ void on_gpib_address_dialog_destroy(GtkWidget *widget, sweeper_data *wdg_data)	{
 	fprintf(stderr,"on_GPIB address_destroy active\n");
 }
 
-void on_hp8648c_gpib_spinbutton_change_value(GtkWidget *widget, sweeper_data *wdg_data)	{
-	fprintf(stderr,"on_hp8648c_gpib_spinbutton_change_value active\n");
+void on_hp8648c_gpib_spinbutton_value_changed(GtkWidget *widget, sweeper_data *wdg_data)	{
+	fprintf(stderr,"on_hp8648c_gpib_spinbutton_value_changed active\n");
 }
 
-void on_hp436a_gpib_spinbutton_change_value(GtkWidget *widget, sweeper_data *wdg_data)	{
-	fprintf(stderr,"on_hp436a_gpib_spinbutton_change_value active\n");
+void on_hp436a_gpib_spinbutton_value_changed(GtkWidget *widget, sweeper_data *wdg_data)	{
+	fprintf(stderr,"on_hp436a_gpib_spinbutton_value_changed active\n");
 }
 
 void on_gpib_address_dialog_response(GtkWidget *widget, sweeper_data *wdg_data)	{
 	fprintf(stderr,"on_gpib_address_dialog_response active\n");
 }
 
-void menu_gpib_address(GtkWidget *widget, sweeper_data *wdg_data)	{
+void on_gpib_address_activate(GtkWidget *widget, sweeper_data *wdg_data)	{
 	
 	if (hp8648c.run == 0 )	{
 		int result = gtk_dialog_run (GTK_DIALOG (wdg_data->gpib_address_dialog));
@@ -356,5 +359,56 @@ void menu_gpib_address(GtkWidget *widget, sweeper_data *wdg_data)	{
 	}
 	else
 		wdg_data->statusbar_buffer = g_strdup_printf("Not allowed during testrun");
-		gtk_widget_hide (wdg_data->gpib_address_dialog);		
+		gtk_widget_hide (GTK_WIDGET(wdg_data->gpib_address_dialog));
+}
+
+
+void on_band_2_clicked(GtkWidget *widget, sweeper_data *wdg_data)	{
+
+	if(hp8648c.run != 1)	{
+		hp8648c.f_start = 144.2;
+		hp8648c.f_stop  = 144.2;
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg_data->start_frequency),hp8648c.f_start);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg_data->stop_frequency),hp8648c.f_stop);
+		hp8648c.run_f =1;		
+		fprintf(stderr,"144MHz active\n");
+	}
+}
+
+void on_band_70_clicked(GtkWidget *widget, sweeper_data *wdg_data)	{
+	if(hp8648c.run != 1)	{
+		hp8648c.f_start = 432.2;
+		hp8648c.f_stop  = 432.2;
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg_data->start_frequency),hp8648c.f_start);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg_data->stop_frequency),hp8648c.f_stop);
+		hp8648c.run_f =1;		
+		fprintf(stderr,"432MHz active\n");
+	}
+}
+
+void on_band_23_clicked(GtkWidget *widget, sweeper_data *wdg_data)	{
+	if(hp8648c.run != 1)	{
+		hp8648c.f_start = 1296.2;
+		hp8648c.f_stop  = 1296.2;
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg_data->start_frequency),hp8648c.f_start);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg_data->stop_frequency),hp8648c.f_stop);
+		hp8648c.run_f =1;		
+		fprintf(stderr,"1296MHz active\n");
+	}
+}
+
+void on_band_13_clicked(GtkWidget *widget, sweeper_data *wdg_data)	{
+	if(hp8648c.run != 1)	{
+		hp8648c.f_start = 2320.2;
+		hp8648c.f_stop  = 2320.2;
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg_data->start_frequency),hp8648c.f_start);
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg_data->stop_frequency),hp8648c.f_stop);
+		hp8648c.run_f =1;		
+		fprintf(stderr,"2320MHz active\n");
+	}
+}
+
+
+void on_log_scale_clicked(GtkWidget *widget, sweeper_data *wdg_data)	{
+
 }

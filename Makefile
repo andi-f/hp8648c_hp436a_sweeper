@@ -12,13 +12,13 @@ all: $(OBJ)
 	$(CC) $(CFLAGS) -c $< $(LDFLAGS)
 
 clean:
-	rm -f $(PRG) *~ *.o a.out core prototyp*
+	rm -f $(PRG) *~ *.o a.out core *prototyp*
 
 
 distclean:
 	cd /usr/local/bin
 	sudo rm -f $(PRG)
-	rm -f $(PRG) *~ *.o a.out core prototyp .csv .*dat
+	rm -f $(PRG) *~ *.o a.out core *prototyp .csv .*dat
 	
 
 install:

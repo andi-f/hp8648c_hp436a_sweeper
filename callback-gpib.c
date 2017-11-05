@@ -2,6 +2,7 @@
 #include "hp8648c_hp436a_sweeper.h"
 #include "gpib-functions.h"
 #include "init.h"
+#include "debug.h"
 
 #include <ctype.h>
 #include <fcntl.h>

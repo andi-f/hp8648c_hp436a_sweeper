@@ -27,6 +27,7 @@ program needs to be really, but useful for testing library functions.
 #include <string.h>
 #include <getopt.h>
 #include "gpib/ib.h"
+#include "debug.h"
 
 
 /* returns a device descriptor after prompting user for primary address */
@@ -36,7 +37,11 @@ int set_device(int minor, int pad)	{
 	const int send_eoi = 1;
 	const int eos_mode = 0;
 	const int timeout = T10s;
-
+	
+	#ifdef DUMMYRUN
+	return 0;
+	#endif	
+	
 	if(pad < 0 || pad > 30){
 		fprintf(stderr,"primary address must be between 0 and 30\n");
 		return -1;
@@ -102,7 +107,10 @@ int ib_read(int ud, int max_num_bytes, char *buffer)	{
 
 int ib_write(int ud, char *command)	{
 	
+	#ifdef DUMMYRUN
 	return 0;
+	#endif	
+	
 	#ifdef DEBUG_LEVEL_1	
 	fprintf(stderr,"%d %s\n\r",ud,command);
 	#endif
