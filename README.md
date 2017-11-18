@@ -18,5 +18,9 @@ Copy the binary into a $somewhere/bin
 History:
 
 3.10.2017 First prototyp with GPIB support.
+
 1.11.2017 RC1 
+
 4.11.2017 RC2
+
+18.11.2017 add config.ini 
