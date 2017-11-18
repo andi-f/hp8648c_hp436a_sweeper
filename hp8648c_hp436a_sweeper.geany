@@ -1,5 +1,5 @@
 [editor]
-line_wrapping=true
+line_wrapping=false
 line_break_column=72
 auto_continue_multiline=true
 
@@ -18,8 +18,8 @@ detect_indent_width=false
 indent_mode=2
 
 [project]
-name=hp8648c_hp436a_linearity
-base_path=/home/fs/projects/glade/hp8648c_hp436a_sweeper/
+name=untitled
+base_path=./
 description=
 file_patterns=
 
@@ -28,22 +28,41 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=3
-FILE_NAME_0=3389;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Frun_sweep.c;0;4
-FILE_NAME_1=0;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fwidget.c;0;4
-FILE_NAME_2=1895;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Fcallback_widget.c;0;4
-FILE_NAME_3=0;C;0;EUTF-8;1;1;1;%2Fhome%2Ffs%2Fprojects%2Fglade%2Fhp8648c_hp436a_sweeper%2Finit.c;0;4
+current_page=-1
 
 [VTE]
 last_dir=/home/fs/projects/glade/hp8648c_hp436a_sweeper
 
 [build-menu]
-EX_00_LB=_Execute
-EX_00_CM=./hp8648c_hp436a_sweeper
-NF_00_LB=_Make all
+NF_00_LB=_Make
 NF_00_CM=make clean && make
 NF_00_WD=
+EX_00_LB=_Execute
+EX_00_CM=%p/hp8648c_hp436a_sweeper
 EX_00_WD=
-NF_01_LB=update
-NF_01_CM=./update
-NF_01_WD=
+NF_03_LB=make clean
+NF_03_CM=make clean
+NF_03_WD=
+
+[prjorg]
+source_patterns=*.c;*.C;*.cpp;*.cxx;*.c++;*.cc;*.m;
+header_patterns=*.h;*.H;*.hpp;*.hxx;*.h++;*.hh;
+ignored_dirs_patterns=.*;CVS;
+ignored_file_patterns=*.o;*.obj;*.a;*.lib;*.so;*.dll;*.lo;*.la;*.class;*.jar;*.pyc;*.mo;*.gmo;
+generate_tag_prefs=0
+external_dirs=
+
+[debugger]
+target=/home/fs/projects/glade/hp8648c_hp436a_sweeper/hp8648c_hp436a_sweeper
+debugger=GDB
+arguments=
+envvar_count=0
+watches_count=2
+watch_0=error
+watch_1=argv
+breaks_count=1
+break_0_file=/home/fs/projects/glade/hp8648c_hp436a_sweeper/callback_widget.c
+break_0_line=346
+break_0_condition=
+break_0_hits_count=0
+break_0_enabled=true

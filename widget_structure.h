@@ -14,7 +14,9 @@ GtkAdjustment	*adj_step_frequency;
 GtkAdjustment	*adj_step_level;
 GtkAdjustment	*adj_stop_frequency;
 GtkAdjustment	*adj_stop_level;
-GtkEntryBuffer			*dut_desc_entrybuffer;
+
+GtkEntryBuffer	*dut_desc_entrybuffer;
+
 GtkWidget		*export_pdf_image;
 GtkWidget		*export_png_image;
 GtkWidget		*gpib_settings;

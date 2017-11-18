@@ -51,5 +51,8 @@ int main(int argc, char *argv[]) {
 	init(&wdg_data,&hp8648c,&hp436a,&sample_data);
     gtk_main();
 
-    return 0;  	
+	if(write_config_file(&wdg_data,&hp8648c,&hp436a) != 0)
+		return -1;
+	else
+		return 0;  	
 }

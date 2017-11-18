@@ -3,111 +3,186 @@
 #include "callback-gpib.h"
 #include "gpib-functions.h"
 #include "debug.h"
-	
+#include <glib.h>
+#include <glib/gstdio.h>
 
-		
+int write_config_file(sweeper_data *wdg_data,hp8648c_record *hp8648c, hp436a_record *hp436a)	{
+    GKeyFile *key_file;
+    GError *error;
+    gchar *dir_name;
+
+    key_file = g_key_file_new();
+	error = NULL;
+	
+	dir_name = g_build_filename (g_get_home_dir (), ".hp8648c_hp436a_sweeper/", NULL);
+   
+	if(g_chdir(dir_name)!= 0)
+    	if(g_mkdir(dir_name,0700)!=0)
+			return -1;
+	
+	dir_name = g_build_filename (dir_name, "config.ini", NULL);
+
+	g_key_file_set_integer(key_file, "GBIB", "HP436A",hp436a->device );
+	g_key_file_set_integer(key_file, "GBIB", "HP8648C", hp8648c->device);
+        
+	g_key_file_set_double(key_file, "SETTINGS", "f_start",hp8648c-> f_start);
+	g_key_file_set_double(key_file, "SETTINGS", "f_stop",hp8648c->f_stop);
+	g_key_file_set_double(key_file, "SETTINGS", "f_Step",hp8648c->f_step);	
+	
+	g_key_file_set_double(key_file, "SETTINGS", "rl",hp8648c->rl);
+	g_key_file_set_double(key_file, "SETTINGS", "rl_start",hp8648c->rl_start);
+	g_key_file_set_double(key_file, "SETTINGS", "rl_stop",hp8648c->rl_stop);
+	g_key_file_set_double(key_file, "SETTINGS", "rl_step",hp8648c->rl_step); 
+	
+	g_key_file_set_double(key_file, "SETTINGS", "rsmd",gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->rmsd_settings)));
+	
+	g_key_file_set_double(key_file, "SETTINGS", "avg_count",gtk_spin_button_get_value(GTK_SPIN_BUTTON(wdg_data->number_avg)));
+	       
+	if(g_key_file_save_to_file (key_file,
+		dir_name,
+		&error)!= TRUE)
+	g_debug("%s", error->message);
+   
+	g_free(dir_name);
+	return 0;
+}
+	
 int init(sweeper_data *wdg, hp8648c_record *hp8648c, hp436a_record *hp436a, sample_record *sample_data)	{
+    GKeyFile *key_file;
+    GError *error;
+    gchar *dir_name;
 
-		gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->start_frequency), MINF,MAXF);
-		gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->stop_frequency), MINF,MAXF);
-		
-		gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->start_level), MINL,MAXL);
-		gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->stop_level), MINL,MAXL);						
+    key_file = g_key_file_new();
+	error = NULL;
+	
+	dir_name = g_build_filename (g_get_home_dir (), ".hp8648c_hp436a_sweeper/", "config.ini", NULL);
 
-		gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->step_frequency),0.1,500);
-		gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->step_level),0.1,10);		
-
-		gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->number_avg),2,SAMPLE);
-				
-//	if (hp436a->device == 0)	{
-		hp436a->device = HP436A_GPIB_ADR;
+    if(!g_key_file_load_from_file(key_file,
+		dir_name,
+		G_KEY_FILE_KEEP_COMMENTS | 
+		G_KEY_FILE_KEEP_TRANSLATIONS,
+		&error))
+    {
+        g_debug("%s", error->message);
+        return -1;
+    }
+    else    {
+		hp436a->device = g_key_file_get_integer(key_file, "GBIB", "HP436A",&error);
+		if(error != 0x0){
+			g_debug("%s", error->message);			
+			hp436a->device = HP436A_GPIB_ADR;
+		}
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->hp436a_gpib_spinbutton), hp436a->device);
-//	}
-
-//	if (hp8648c->device == 0)	{
-		hp8648c->device = HP8648C_GPIB_ADR;
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->hp8648c_gpib_spinbutton),hp8648c->device);
-//	}
-
-		hp8648c->run_f = 1;
+					
+		hp8648c->device = g_key_file_get_integer(key_file, "GBIB", "HP8648C", &error);
+		if(error != 0x0){
+			g_debug("%s", error->message);			
+			hp8648c->device = HP8648C_GPIB_ADR;
+		}
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->hp8648c_gpib_spinbutton),hp8648c->device);		
 		
-		sample_data->avg_count = SAMPLE;		
-	#ifdef DUMMYRUN
-		sample_data->avg_count = 2;
-	#endif	
-
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->number_avg),sample_data->avg_count);
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->rmsd_settings),0.15);
-		
-	if (hp8648c->f_stop > MAXF)	{
-		hp8648c->f_stop = MAXF;
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->stop_frequency),hp8648c->f_stop);
-	}
-	
-	if (hp8648c->f_start < MINF)	{
-		hp8648c->f_start = MINF;
+		hp8648c-> f_start = g_key_file_get_double(key_file, "SETTINGS", "f_start",&error);
+		if(error != 0x0){
+			g_debug("%s", error->message);			
+			hp8648c->f_start = MINF;
+		}
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->start_frequency),hp8648c->f_start);
-	}
+		
+		hp8648c->f_stop = g_key_file_get_double(key_file, "SETTINGS", "f_stop",&error);
+		if(error != 0x0){
+			g_debug("%s", error->message);	
+			hp8648c->f_stop = MAXF;
+		}
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->stop_frequency),hp8648c->f_stop);
 	
-	
-	if (hp8648c->f_start > hp8648c->f_stop)	{
-		hp8648c->f_start = hp8648c->f_stop;
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->stop_frequency),hp8648c->f_stop);		
-	}
-
-	if (hp8648c->f_step != 0.1)	{
-		hp8648c->f_step = (hp8648c->f_stop - hp8648c->f_stop) / 100;
+		hp8648c->f_step = g_key_file_get_double(key_file, "SETTINGS", "f_Step",&error);	
+		if(error != 0x0){
+			g_debug("%s", error->message);	
+			hp8648c->f_step = (hp8648c->f_stop - hp8648c->f_stop) / 100;
+		}
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->step_frequency),hp8648c->f_step);		
-	}
-	
-	#ifdef DUMMYRUN
-	hp8648c->f_step = 500;
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->step_frequency),hp8648c->f_step);		
-	#endif
-	
-	if (hp8648c->rl_start < MINL)	{
-		hp8648c->rl_start = MINL;
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->start_level),hp8648c->rl_start);				
-	}
-	
-	if (hp8648c->rl_stop > MAXL)	{
-		hp8648c->rl_stop = -20;
+		
+		hp8648c->rl = g_key_file_get_double(key_file, "SETTINGS", "rl",&error);
+		if(error != 0x0){
+			g_debug("%s", error->message);			
+		}
+		
+		hp8648c->rl_start =g_key_file_get_double(key_file, "SETTINGS", "rl_start",&error);
+		if(error != 0x0){
+			g_debug("%s", error->message);
+			hp8648c->rl_start = MINL;
+		}
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->start_level),hp8648c->rl_start);	
+
+		hp8648c->rl_stop = g_key_file_get_double(key_file, "SETTINGS", "rl_stop",&error);
+		if(error != 0x0){
+			g_debug("%s", error->message);
+			hp8648c->rl_stop = -20;	
+		}
 		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->step_level),hp8648c->rl_stop);						
-	}
+		
+		hp8648c->rl_step = g_key_file_get_double(key_file, "SETTINGS", "rl_step",&error);        
+		if(error != 0x0){
+			g_debug("%s", error->message);	
+			hp8648c->rl_step = 0.1;
+		}
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->step_level),hp8648c->rl_step);
+		
+		g_key_file_get_double(key_file, "SETTINGS", "rsmd", &error);		
+		if(error != 0x0){
+			g_debug("%s", error->message);	
+			sample_data->rmsd = 0.15;
+		}
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->rmsd_settings),sample_data->rmsd);		
+		
+		sample_data->avg_count = g_key_file_get_double(key_file, "SETTINGS", "avg_count", &error);
+		if(error != 0x0){
+			g_debug("%s", error->message);		
+			sample_data->avg_count = SAMPLE;
+		}
+		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->number_avg),sample_data->avg_count);
+				
+	}					
+
+	g_free(dir_name);
 	
-	if (hp8648c->rl_step < 0.1)	{
-		hp8648c->rl_step = 0.1;
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->step_level),hp8648c->rl_step);								
-	}
+	gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->start_frequency), MINF,MAXF);
+	gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->stop_frequency), MINF,MAXF);
+		
+	gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->start_level), MINL,MAXL);
+	gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->stop_level), MINL,MAXL);						
 
-	if (hp8648c->rl_start > hp8648c->rl_stop)	{
-		hp8648c->rl_start = hp8648c->rl_stop;
-		gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->stop_level),hp8648c->rl_stop);				
-	}
+	gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->step_frequency),0.1,500);
+	gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->step_level),0.1,10);		
 
-	#ifdef DUMMYRUN	
+	gtk_spin_button_set_range(GTK_SPIN_BUTTON (wdg->number_avg),2,SAMPLE);
+				
+	hp8648c->run_f = 1;
+		
+		
+	#ifdef DUMMYRUN
+	sample_data->avg_count = 2;
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->number_avg),sample_data->avg_count);
+	hp8648c->f_step = 500;
+	gtk_spin_button_set_value(GTK_SPIN_BUTTON (wdg->step_frequency),hp8648c->f_step);
+	#endif
+
+	#ifndef DUMMYRUN
 	if (set_mode_hp8648c(hp8648c->ud,MOD_OFF, 0, RF_OFF) != 1)
 		return -1;
 	if( set_level_hp8648c(hp8648c->ud,hp8648c->rl_start) !=1 )
 		return -1;
 	if (set_frequency_hp8648c(hp8648c->ud, hp8648c->f_start)!= 1)
-		return -1;
-	#endif
-	#ifdef DEBUG_LEVEL_1			
-		fprintf(stderr,"Init HP8648A\n\r");
-	#endif
-	#ifdef DUMMYRUN		
+		return -1;	
 	if (set_mode_hp436a(hp436a->ud,"9D-R") != 1)
-		return -1;
-	#endif
-	#ifdef DEBUG_LEVEL_1		
-		fprintf(stderr,"Init HP436A\n\r");
-	#endif
+		return -1;				
+	#endif	
+
+
 	return 0;
 }
 
 int init_gpib_devices(sweeper_data *wdg_data, hp8648c_record *hp8648c, hp436a_record *hp436a)	{
-
 	hp8648c->device = HP8648C_GPIB_ADR;
 	hp436a->device = HP436A_GPIB_ADR;
 

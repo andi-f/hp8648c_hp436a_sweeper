@@ -15,7 +15,7 @@ typedef struct {
 	int device;			//GPIB address 0-31
 	int ud;
 	char eot;
-	uint8_t  run_f;					//0 power 1 frequency
+	uint8_t run_f;					//0 power 1 frequency
 	uint8_t run;
 	gdouble f;				// frequency
 	gdouble f_start;
